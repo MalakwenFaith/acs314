@@ -31,7 +31,7 @@ void main() {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Enter Username",
+                      "Enter your Username",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
