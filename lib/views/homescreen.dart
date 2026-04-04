@@ -33,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <Widget>[
           Icon(Icons.dashboard, size: 30, color: Colors.pinkAccent),
           Icon(Icons.category, size: 30, color: Colors.orangeAccent),
-          Icon(Icons.line_style, size: 30, color: Colors.purpleAccent),
           Icon(Icons.person, size: 30, color: Colors.blueAccent),
         ],
 
