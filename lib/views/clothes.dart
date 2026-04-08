@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_acs315/cart.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_acs315/controllerss/clothescontroller.dart';
 
 class Clothes extends StatelessWidget {
@@ -11,10 +14,6 @@ class Clothes extends StatelessWidget {
     final ClothesController clothesController = Get.put(ClothesController());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("WELCOME!"),
-        backgroundColor: Colors.pink,
-      ),
       body: Obx(() {
         if (clothesController.isLoading.value) {
           return const Center(
@@ -31,20 +30,26 @@ class Clothes extends StatelessWidget {
           );
         }
 
-        return Padding(
-          padding: const EdgeInsets.all(10),
-          child: GridView.builder(
-            itemCount: clothesController.clothesList.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.7,
+        return RefreshIndicator(
+          color: Colors.pink,
+          onRefresh: () async {
+            await clothesController.getClothes();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: GridView.builder(
+              itemCount: clothesController.clothesList.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 0.7,
+              ),
+              itemBuilder: (context, index) {
+                final item = clothesController.clothesList[index];
+                return _buildClothesCard(item);
+              },
             ),
-            itemBuilder: (context, index) {
-              final item = clothesController.clothesList[index];
-              return _buildClothesCard(item);
-            },
           ),
         );
       }),
@@ -125,15 +130,32 @@ class Clothes extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: item.quantity > 0
-                        ? () {
-                            Get.snackbar(
-                              "Added to Cart",
-                              "${item.name} added successfully",
-                              snackPosition: SnackPosition.BOTTOM,
-                              backgroundColor: Colors.pink,
-                              colorText: Colors.white,
+                        ? () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            final email = prefs.getString('email') ?? '';
+
+                            final response = await http.post(
+                              Uri.parse(
+                                  "http://localhost/flutter_api/add_to_cart.php"),
+                              body: {
+                                "user_email": email,
+                                "clothesid": item.id.toString(),
+                                "quantity": "1",
+                              },
                             );
-                            // TODO: cart logic here
+
+                            final data = jsonDecode(response.body);
+                            if (data['success'] == 1) {
+                              Get.snackbar(
+                                "Added to Cart ✅",
+                                "${item.name} added successfully",
+                                snackPosition: SnackPosition.BOTTOM,
+                                backgroundColor: Colors.pink,
+                                colorText: Colors.white,
+                              );
+                            } else {
+                              Get.snackbar("Error", data['message']);
+                            }
                           }
                         : null,
                     style: ElevatedButton.styleFrom(

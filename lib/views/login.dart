@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_acs315/controllerss/logincontrollers.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Logincontrollers loginController = Get.put(Logincontrollers());
 TextEditingController emailController = TextEditingController();
@@ -151,8 +152,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (response.statusCode == 200) {
                     final serverData = jsonDecode(response.body);
                     if (serverData['success'] == 1) {
-                      String email = serverData["data"]["email"];
-                      print(email); //store in shared preferences
+                      //  save to SharedPreferences
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setString('email',
+                          serverData['data']['email']?.toString() ?? '');
+                      await prefs.setString('firstname',
+                          serverData['data']['firstname']?.toString() ?? '');
+                      await prefs.setString('lastname',
+                          serverData['data']['lastname']?.toString() ?? '');
+
                       Get.toNamed('/homescreen');
                     } else {
                       Get.snackbar("Wrong Credentials", serverData["message"]);
