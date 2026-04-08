@@ -28,14 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
       body: screens[currentIndex], // show the current screen
 
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.purpleAccent,
+        backgroundColor: Colors.white,
+        color: Colors.pink,
+        buttonBackgroundColor: Colors.pink,
         index: currentIndex, // highlight the current icon
         items: const <Widget>[
-          Icon(Icons.dashboard, size: 30, color: Colors.pinkAccent),
-          Icon(Icons.category, size: 30, color: Colors.orangeAccent),
-          Icon(Icons.person, size: 30, color: Colors.blueAccent),
+          Icon(Icons.checkroom, size: 30, color: Colors.pinkAccent), // Clothes
+          Icon(Icons.shopping_bag,
+              size: 30, color: Colors.orangeAccent), // Orders
+          Icon(Icons.person, size: 30, color: Colors.blueAccent), // Profile
         ],
-
         onTap: (index) {
           setState(() {
             currentIndex = index; // update the screen when icon is tapped
