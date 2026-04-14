@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_acs315/views/change_password.dart';
 import 'package:flutter_application_acs315/views/orders.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -81,7 +82,7 @@ class _ProfileState extends State<Profile> {
             _buildProfileOption(
               icon: Icons.lock_outline,
               label: "Change Password",
-              onTap: () {},
+              onTap: () => Get.to(() => const ChangePasswordScreen()),
             ),
             _buildProfileOption(
               icon: Icons.help_outline,

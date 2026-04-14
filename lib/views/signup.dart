@@ -35,7 +35,7 @@ class _SignupScreenState extends State<SignupScreen> {
               Image.asset("assets/images/logo.png", width: 200),
               const SizedBox(height: 70),
 
-              // PHONE NUMBER (ID)
+              // (ID)
               const Padding(
                 padding: EdgeInsets.fromLTRB(25, 0, 20, 5),
                 child: Row(

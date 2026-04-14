@@ -43,7 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.pink,
         automaticallyImplyLeading: false,
         actions: [
-          // Cart icon — visible on all tabs
           IconButton(
             icon: const Icon(Icons.shopping_cart, color: Colors.white),
             onPressed: () => Get.to(() => const CartScreen()),

@@ -84,7 +84,6 @@ class _OrdersState extends State<Orders> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // ORDER HEADER
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -107,13 +106,11 @@ class _OrdersState extends State<Orders> {
                               ),
                               const Divider(),
 
-                              // ORDER ITEMS
                               ...items.map((item) => Padding(
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 4),
                                     child: Row(
                                       children: [
-                                        // Item image
                                         ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(8),
@@ -202,7 +199,7 @@ class _OrdersState extends State<Orders> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: color),
       ),
